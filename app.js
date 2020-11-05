@@ -1,12 +1,17 @@
 var express = require('express');
 var app = express();
+
+//template 코드
 app.locals.pretty = true; //template 코드 정렬
 app.set('views', './views'); //views, 템플리트가 있는 디렉토리
 app.set('view engine', 'pug'); //view engine, 사용할 템플리트 엔진
-app.use(express.static('public')); //public 디렉토리에 정적파일 저장
 app.get('/template',function(req,res){
-    res.render('temp');
+    res.render('temp',{time:Date(),_title:'Pug'}); //객체(time,title)를 담아서 보냄
 });
+
+//public 디렉토리에 정적파일 저장
+app.use(express.static('public')); 
+
 app.get('/',function(req,res){
     res.send('Hello home page');
 });
@@ -16,9 +21,7 @@ app.get('/router',function(req,res){
 app.get('/login',function(req,res){
     res.send('Login please');
 });
-app.listen(3000,function(){
-    console.log("Connected 3000 port!");
-});
+
 app.get('/dynamic',function(req,res){ //동적.
     var lis ='';
     for(var i=0;i<5;i++){
@@ -39,4 +42,8 @@ app.get('/dynamic',function(req,res){ //동적.
     </body>
     </html>`;
     res.send(output);
+});
+
+app.listen(3000,function(){
+    console.log("Connected 3000 port!");
 });
